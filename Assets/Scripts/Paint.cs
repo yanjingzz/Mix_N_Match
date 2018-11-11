@@ -40,20 +40,15 @@ public struct Paint : IEquatable<Paint>
     {
         get
         {
-            //string s = "Images/";
-            //if (IsSmall())
-            //{
-            //    s += "Small/";
-            //}
-            //else
-            //{
-            //    s += "Big/";
-            //}
-            //s += name[r + y * 3 + b * 9];
-            //return s;
-            if (this == Paint.Black) { return "Images/Black_big"; }
-            return "Images/White";
+            return this == Empty ? null : "Images/Monsters/" + ToString();
+        }
+    }
 
+    public string PreviewName
+    {
+        get
+        {
+            return this == Empty ? null : "Images/Previews/" + ToString();
         }
     }
 
@@ -66,8 +61,8 @@ public struct Paint : IEquatable<Paint>
             "Green_small", "Black_big", "Brown_big", "Lime_big", "Olive_big", "Black_big",
             "Blue_big", "Indigo_big", "Violet_big", "Turquoise_big", "Slate_big", "Black_big",
             "Green_big", "Black_big", "Black_big",
-        };
-    private static readonly Color32[] colors =
+    };
+    private static readonly Color32[] _colorValues =
     {
             Color.clear,
             new Color32(0xf9, 0x43, 0x4b, 0xFF), //red
@@ -98,7 +93,7 @@ public struct Paint : IEquatable<Paint>
             Color.black,
         };
 
-    public int minCount
+    public int MinMatchNum
     {
         get
         {
@@ -142,11 +137,11 @@ public struct Paint : IEquatable<Paint>
         this.y = (byte)y;
     }
 
-    public Color color
+    public Color ColorValue
     {
         get
         {
-            return colors[r + y * 3 + b * 9];
+            return _colorValues[r + y * 3 + b * 9];
         }
     }
 
@@ -207,8 +202,8 @@ public struct Paint : IEquatable<Paint>
 
     public Paint ToSmall()
     {
-        if (IsSmall() || IsTertiary || this == Paint.Black) return this;
-        return (new Paint(r / 2, y / 2, b / 2));
+        return (IsSmall() || IsTertiary || this == Paint.Black) 
+            ? (this) : new Paint(r / 2, y / 2, b / 2);
     }
 
     public override bool Equals(object obj)

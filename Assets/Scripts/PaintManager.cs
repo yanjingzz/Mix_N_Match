@@ -6,24 +6,26 @@ public class PaintManager : MonoBehaviour {
 
     public GameObject blackPrefab;
 
-    private BlackSpotManager blackspot;
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer monsterRenderer, previewRenderer;
     private Paint _color;
-    private Paint preview;
+    private Paint? preview;
     private bool _onBoard;
+    private readonly float fadeTime = 0.5f;
+    private ParticleSystem particle;
     private void Awake()
     {
-        blackspot = Instantiate(blackPrefab, this.transform, false).GetComponent<BlackSpotManager>();
-        if(blackspot == null)
-        {
-            Debug.Log("Paint: Missing blackspotManager");
-        }
 
+        monsterRenderer = transform.Find("Monster").GetComponent<SpriteRenderer>();
+        previewRenderer = transform.Find("Preview").GetComponent<SpriteRenderer>();
 
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        if (spriteRenderer == null) 
+        if (monsterRenderer == null || previewRenderer == null) 
         {
             Debug.Log("Paint: Missing sprite renderer");
+        }
+        particle = GetComponentInChildren<ParticleSystem>();
+        if (particle == null)
+        {
+            Debug.Log("Blackspot: Missing particle system");
         }
     }
     public Paint Color
@@ -50,7 +52,7 @@ public class PaintManager : MonoBehaviour {
             {
                 CircleCollider2D coll = this.GetComponent<CircleCollider2D>();
                 if (coll != null) {
-                    coll.radius = 0.1f;
+                    coll.radius = 0.05f;
                 }
             }
             _onBoard = value;
@@ -58,29 +60,27 @@ public class PaintManager : MonoBehaviour {
     }
     private bool ChangeSprite(Paint color) 
     {
-        if (spriteRenderer == null) {
+        HidePreview();
+        if (monsterRenderer == null) {
             return false;
         }
 
         if (color == Paint.Black) {
-            blackspot.Show();
-        } else {
-            blackspot.Hide();
+            particle.Emit(50);
         }
+        if(color == Paint.Empty) {
 
+            FadeOut(monsterRenderer, fadeTime);
+        }
         //delay updating color if putting small piece of paint on board
         //for smoother visual effect
         if (_color == Paint.Empty && OnBoard)
-            Invoke("DelayedUpdateColor", 0.5f);
+            Invoke("DelayedUpdateColor", fadeTime);
         else
-            spriteRenderer.DOColor(color.color, 0.5f);
-
-        //change scale
-        if (color.IsSmall() ) {
-            transform.DOScale(0.7f, 0.5f); 
-        } else {
-            transform.DOScale(1f, 0.5f);
+        {
+            FadeIn(monsterRenderer, color.SpriteName, fadeTime);
         }
+
         return true;
     }
 
@@ -89,19 +89,32 @@ public class PaintManager : MonoBehaviour {
 
         if (paint == Paint.Empty || paint == preview)
             return false;
+        FadeIn(previewRenderer, paint.PreviewName, fadeTime);
         preview = paint;
         return true;
     }
 
     private bool HidePreview()
     {
-        preview = Paint.Empty;
-
+        preview = null;
+        FadeOut(previewRenderer, 0.5f);
         return true;
+    }
+
+    private void FadeIn(SpriteRenderer spriteRenderer, string spriteName, float time) {
+        spriteRenderer.sprite = Resources.Load<Sprite>(spriteName);
+        spriteRenderer.color = new UnityEngine.Color(1f, 1f, 1f, 0f);
+        spriteRenderer.DOFade(1, time);
+    }
+
+    private void FadeOut(SpriteRenderer spriteRenderer, float time)
+    {
+        spriteRenderer.DOFade(0, time).OnComplete(() => spriteRenderer.sprite = null);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (preview != null) return;
         if (transform.parent.tag == "Board" && collision.gameObject.tag == "Paint" 
             && Color != Paint.Empty && Color != Paint.Black)
         {
@@ -116,6 +129,24 @@ public class PaintManager : MonoBehaviour {
 
         }
     }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (preview == null) {
+            if (transform.parent.tag == "Board" && collision.gameObject.tag == "Paint"
+            && Color != Paint.Empty && Color != Paint.Black)
+            {
+                var otherColor = collision.gameObject.GetComponent<PaintManager>().Color;
+                //Debug.Log("OnTriggerEnter: " + (Color + otherColor));
+                if (Paint.IsMixable(Color, otherColor))
+                {
+
+                    PreviewPaint(Color + otherColor);
+                }
+
+
+            }
+        }
+    }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -123,7 +154,7 @@ public class PaintManager : MonoBehaviour {
         if (transform.parent.tag == "Board" && collision.gameObject.tag == "Paint" 
             && Color != Paint.Empty && Color != Paint.Black)
         {
-            if(spriteRenderer == null) {
+            if(monsterRenderer == null) {
                 return;
             }
             HidePreview();
@@ -131,7 +162,8 @@ public class PaintManager : MonoBehaviour {
         }
     }
     private void DelayedUpdateColor() {
-        spriteRenderer.color = _color.color;
+        monsterRenderer.sprite = Resources.Load<Sprite>(_color.SpriteName);
+        monsterRenderer.color = UnityEngine.Color.white;
     }
 
 }

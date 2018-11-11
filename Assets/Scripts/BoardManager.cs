@@ -90,7 +90,7 @@ public class BoardManager : MonoBehaviour
                             }
                         }
                         //set should contain all cells that are in the same color target;
-                        if (set.Count >= target.minCount)
+                        if (set.Count >= target.MinMatchNum)
                         {
                             foreach (Hex hex in set)
                             {

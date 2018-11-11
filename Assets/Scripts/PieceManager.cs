@@ -7,11 +7,12 @@ using DG.Tweening;
 
 public class PieceManager : MonoBehaviour, IPlaceable {
 
-
     Vector3 initialPos;
     List<PaintManager> paintManagers = new List<PaintManager>();
     // Use this for initialization
 
+    public static List<Sprite> monsterSprites;
+    public List<Sprite> previewSprites;
     #region MonoBehaviour Messages
 
     void Start () {
