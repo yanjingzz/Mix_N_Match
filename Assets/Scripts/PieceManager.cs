@@ -56,7 +56,7 @@ public class PieceManager : MonoBehaviour, IPlaceable {
         Spawner.Instance.Spawn();
 
         //delete itself after one second
-        Destroy(gameObject, 0.5f);
+        Destroy(gameObject, 2f);
 
     }
 

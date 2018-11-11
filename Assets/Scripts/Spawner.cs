@@ -48,7 +48,7 @@ public class Spawner : MonoBehaviour {
                 hex = hex.neighbour(Hex.RandomDirection);
 
             }
-            Debug.Log(log);
+            //Debug.Log(log);
         }
 
     }

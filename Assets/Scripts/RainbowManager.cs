@@ -127,7 +127,7 @@ public class RainbowManager : MonoBehaviour, IPlaceable {
         var particles = Instantiate(RainbowParticles, tf, false);
         Destroy(particles, 3f);
 
-        rainbowRenderer.DOFade(0f, 0.3f).OnComplete(() => 
+        rainbowRenderer.DOFade(0f, 1f).OnComplete(() => 
         { 
             fullRainbow.SetActive(false); 
             tf.localPosition = Vector3.zero;
