@@ -36,16 +36,16 @@ public class Spawner : MonoBehaviour {
             Debug.LogError("Spawner: Missing PieceManager");
         } else {
             string log = "Spawned: ";
-            var hex = Piece.Hex.zero;
+            var hex = Hex.zero;
             int numberOfPieces = UnityEngine.Random.Range(0f, 1f) < singlePieceP ? 1 : 2;
             for (int i = 0; i < numberOfPieces; i++) 
             {
                 int numOfColors = SecondaryEnabled ? 6 : 3;
-                var color = Piece.Paint.Spawnable[UnityEngine.Random.Range(0, numOfColors)];
+                var color = Paint.Spawnable[UnityEngine.Random.Range(0, numOfColors)];
                 manager.CreateGO(new Piece{color = color, hexPos = hex});
                 log += color + " at " + hex + ", ";
                 //random walk;
-                hex = hex.neighbour(Piece.Hex.RandomDirection);
+                hex = hex.neighbour(Hex.RandomDirection);
 
             }
             Debug.Log(log);

@@ -14,8 +14,8 @@ public class BoardManager : MonoBehaviour
     public GameObject paintPrefab;
 
     private GameObject boardGO;
-    private Dictionary<Piece.Hex, Piece.Paint> board = new Dictionary<Piece.Hex, Piece.Paint>();
-    private Dictionary<Piece.Hex, PaintManager> graphic = new Dictionary<Piece.Hex, PaintManager>();
+    private Dictionary<Hex, Paint> board = new Dictionary<Hex, Paint>();
+    private Dictionary<Hex, PaintManager> graphic = new Dictionary<Hex, PaintManager>();
 
     void Awake()
     {
@@ -25,7 +25,7 @@ public class BoardManager : MonoBehaviour
             Destroy(gameObject);
 
         //initiating board with black
-        var v = new Piece.Hex();
+        var v = new Hex();
         boardGO = new GameObject("Board");
         boardGO.tag = "Board";
         for (int i = -size; i <= size; i++)
@@ -36,7 +36,7 @@ public class BoardManager : MonoBehaviour
                 {
                     v.q = i;
                     v.r = j;
-                    board[v] = Piece.Paint.Empty;
+                    board[v] = Paint.Empty;
                     Instantiate(slotPrefab, CenterPosAtHex(v, center), Quaternion.Euler(0, 0, 30), boardGO.transform);
                     var paintGO = Instantiate(paintPrefab, CenterPosAtHex(v, center), Quaternion.Euler(0, 0, 0), boardGO.transform);
                     PaintManager manager = paintGO.GetComponent<PaintManager>();
@@ -56,9 +56,9 @@ public class BoardManager : MonoBehaviour
 
     public int FindMatches()
     {
-        var queue = new Queue<Piece.Hex>();
-        var set = new HashSet<Piece.Hex>();
-        var v = new Piece.Hex();
+        var queue = new Queue<Hex>();
+        var set = new HashSet<Hex>();
+        var v = new Hex();
         int totalMatches = 0;
         for (int i = -size; i <= size; i++)
         {
@@ -76,7 +76,7 @@ public class BoardManager : MonoBehaviour
                         while (queue.Count > 0)
                         {
                             var current = queue.Dequeue();
-                            foreach (Vector2Int dir in Piece.Hex.directions)
+                            foreach (Vector2Int dir in Hex.directions)
                             {
                                 var neighbour = current.neighbour(dir);
                                 if (board.ContainsKey(neighbour) && board[neighbour] == target)
@@ -92,9 +92,9 @@ public class BoardManager : MonoBehaviour
                         //set should contain all cells that are in the same color target;
                         if (set.Count >= target.minCount)
                         {
-                            foreach (Piece.Hex hex in set)
+                            foreach (Hex hex in set)
                             {
-                                this[hex] = Piece.Paint.Empty;
+                                this[hex] = Paint.Empty;
                             }
                             RainbowManager.Instance.Matched(target);
                             Debug.Log("Matched " + set.Count + " pieces of " + target);
@@ -108,7 +108,7 @@ public class BoardManager : MonoBehaviour
         return totalMatches;
     }
 
-    public bool IsLegalToPut(Piece.Paint color, Vector2 pos)
+    public bool IsLegalToPut(Paint color, Vector2 pos)
     {
         var hex = HexAtPoint(pos, center);
         return IsLegalToPut(color, hex);
@@ -120,28 +120,28 @@ public class BoardManager : MonoBehaviour
         return IsOnBoard(hex);
     }
 
-    bool IsLegalToPut(Piece.Paint color, Piece.Hex hex)
+    bool IsLegalToPut(Paint color, Hex hex)
     {
-        return IsOnBoard(hex) && Piece.Paint.IsMixable(board[hex], color);
+        return IsOnBoard(hex) && Paint.IsMixable(board[hex], color);
     }
 
-    bool IsOnBoard(Piece.Hex hex)
+    bool IsOnBoard(Hex hex)
     {
         return board.ContainsKey(hex);
     }
 
-    public Piece.Paint? this[Piece.Hex hex]
+    public Paint? this[Hex hex]
     {
         get
         {
-            return board.ContainsKey(hex) ? (Piece.Paint?)board[hex] : null;
+            return board.ContainsKey(hex) ? (Paint?)board[hex] : null;
         }
         set
         {
             if (board.ContainsKey(hex) && value != null)
             {
-                board[hex] = (Piece.Paint)value;
-                graphic[hex].Color = (Piece.Paint)value;
+                board[hex] = (Paint)value;
+                graphic[hex].Color = (Paint)value;
             }
                 
         }
@@ -153,7 +153,7 @@ public class BoardManager : MonoBehaviour
 
     #region Positioning
 
-    public Piece.Hex HexAtPoint(Vector2 pos, Vector2 offset)
+    public Hex HexAtPoint(Vector2 pos, Vector2 offset)
     {
         float x = pos.x - offset.x;
         float y = pos.y - offset.y;
@@ -165,7 +165,7 @@ public class BoardManager : MonoBehaviour
 
     }
 
-    public Vector2 CenterPosAtHex(Piece.Hex hex, Vector2 offset)
+    public Vector2 CenterPosAtHex(Hex hex, Vector2 offset)
     {
         var x = Mathf.Sqrt(3) / 2 * hex.q * cellSize + offset.x;
         var y = (-hex.r - hex.q / 2f) * cellSize + offset.y;
@@ -177,7 +177,7 @@ public class BoardManager : MonoBehaviour
 
 
 
-    private Piece.Hex _hex_round(float q, float r)
+    private Hex _hex_round(float q, float r)
     {
         float x = q;
         float z = r;
@@ -197,7 +197,7 @@ public class BoardManager : MonoBehaviour
             ry = -rx - rz;
         else
             rz = -rx - ry;
-        return new Piece.Hex(rx, rz);
+        return new Hex(rx, rz);
     }
 
     #endregion

@@ -63,34 +63,34 @@ public class RainbowManager : MonoBehaviour, IPlaceable {
 
 
 
-    public void Matched (Piece.Paint paint) {
-        if (paint == Piece.Paint.RedBig || paint == Piece.Paint.Vermillion) 
+    public void Matched (Paint paint) {
+        if (paint == Paint.RedBig || paint == Paint.Vermillion) 
         {
             hasRed = true;
             redPiece.SetActive(true);
         }
             
-        if (paint == Piece.Paint.OrangeBig || paint == Piece.Paint.Amber)
+        if (paint == Paint.OrangeBig || paint == Paint.Amber)
         {
             hasOrange = true;
             orangePiece.SetActive(true);
         }
-        if (paint == Piece.Paint.YellowBig || paint == Piece.Paint.Lime)
+        if (paint == Paint.YellowBig || paint == Paint.Lime)
         {
             hasYellow = true;
             yellowPiece.SetActive(true);
         }
-        if (paint == Piece.Paint.GreenBig || paint == Piece.Paint.Turquoise)
+        if (paint == Paint.GreenBig || paint == Paint.Turquoise)
         {
             hasGreen = true;
             greenPiece.SetActive(true);
         }
-        if (paint == Piece.Paint.BlueBig || paint == Piece.Paint.Indigo)
+        if (paint == Paint.BlueBig || paint == Paint.Indigo)
         {
             hasBlue = true;
             bluePiece.SetActive(true);
         }
-        if (paint == Piece.Paint.VioletBig || paint == Piece.Paint.Magenta)
+        if (paint == Paint.VioletBig || paint == Paint.Magenta)
         {
             hasViolet = true;
             violetPiece.SetActive(true);
@@ -113,16 +113,16 @@ public class RainbowManager : MonoBehaviour, IPlaceable {
         BoardManager board = BoardManager.Instance;
         var tf = fullRainbow.transform;
         var hex = board.HexAtPoint(tf.position, board.center);
-        if (!board.IsOnBoard(tf.position) || board[hex] == Piece.Paint.Empty)
+        if (!board.IsOnBoard(tf.position) || board[hex] == Paint.Empty)
         {
             tf.DOLocalMove(Vector3.zero, 0.2f);
             return;
         }
 
-        board[hex] = Piece.Paint.Empty;
-        foreach (var dir in Piece.Hex.directions)
+        board[hex] = Paint.Empty;
+        foreach (var dir in Hex.directions)
         {
-            board[hex.neighbour(dir)] = Piece.Paint.Empty;
+            board[hex.neighbour(dir)] = Paint.Empty;
         }
         var particles = Instantiate(RainbowParticles, tf, false);
         Destroy(particles, 3f);

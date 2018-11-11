@@ -8,8 +8,8 @@ public class PaintManager : MonoBehaviour {
 
     private BlackSpotManager blackspot;
     private SpriteRenderer spriteRenderer;
-    private Piece.Paint _color;
-    private Piece.Paint preview;
+    private Paint _color;
+    private Paint preview;
     private bool _onBoard;
     private void Awake()
     {
@@ -26,7 +26,7 @@ public class PaintManager : MonoBehaviour {
             Debug.Log("Paint: Missing sprite renderer");
         }
     }
-    public Piece.Paint Color
+    public Paint Color
     {
         get {
             return _color;
@@ -56,13 +56,13 @@ public class PaintManager : MonoBehaviour {
             _onBoard = value;
         }
     }
-    private bool ChangeSprite(Piece.Paint color) 
+    private bool ChangeSprite(Paint color) 
     {
         if (spriteRenderer == null) {
             return false;
         }
 
-        if (color == Piece.Paint.Black) {
+        if (color == Paint.Black) {
             blackspot.Show();
         } else {
             blackspot.Hide();
@@ -70,7 +70,7 @@ public class PaintManager : MonoBehaviour {
 
         //delay updating color if putting small piece of paint on board
         //for smoother visual effect
-        if (_color == Piece.Paint.Empty && OnBoard)
+        if (_color == Paint.Empty && OnBoard)
             Invoke("DelayedUpdateColor", 0.5f);
         else
             spriteRenderer.DOColor(color.color, 0.5f);
@@ -84,10 +84,10 @@ public class PaintManager : MonoBehaviour {
         return true;
     }
 
-    private bool PreviewPaint(Piece.Paint paint) 
+    private bool PreviewPaint(Paint paint) 
     {
 
-        if (paint == Piece.Paint.Empty || paint == preview)
+        if (paint == Paint.Empty || paint == preview)
             return false;
         preview = paint;
         return true;
@@ -95,7 +95,7 @@ public class PaintManager : MonoBehaviour {
 
     private bool HidePreview()
     {
-        preview = Piece.Paint.Empty;
+        preview = Paint.Empty;
 
         return true;
     }
@@ -103,11 +103,11 @@ public class PaintManager : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (transform.parent.tag == "Board" && collision.gameObject.tag == "Paint" 
-            && Color != Piece.Paint.Empty && Color != Piece.Paint.Black)
+            && Color != Paint.Empty && Color != Paint.Black)
         {
             var otherColor = collision.gameObject.GetComponent<PaintManager>().Color;
             //Debug.Log("OnTriggerEnter: " + (Color + otherColor));
-            if (Piece.Paint.IsMixable(Color, otherColor)) 
+            if (Paint.IsMixable(Color, otherColor)) 
             {
 
                 PreviewPaint(Color + otherColor);
@@ -121,7 +121,7 @@ public class PaintManager : MonoBehaviour {
     {
 
         if (transform.parent.tag == "Board" && collision.gameObject.tag == "Paint" 
-            && Color != Piece.Paint.Empty && Color != Piece.Paint.Black)
+            && Color != Paint.Empty && Color != Paint.Black)
         {
             if(spriteRenderer == null) {
                 return;

@@ -43,7 +43,7 @@ public class PieceManager : MonoBehaviour, IPlaceable {
             ScoreManager.Instance.Placed();
             var pos = board.HexAtPoint(paint.transform.position, board.center);
             board[pos] = paint.Color + board[pos];
-            if (!((Piece.Paint)board[pos]).IsSmall()) paint.Color = Piece.Paint.Empty;
+            if (!((Paint)board[pos]).IsSmall()) paint.Color = Paint.Empty;
             paint.transform.DOMove(board.CenterPosAtHex(pos, board.center), 0.2f);
         }
 
