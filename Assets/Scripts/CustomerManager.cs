@@ -34,14 +34,20 @@ public class CustomerManager : MonoBehaviour {
     }
 
     private int _index = -1;
-    private Paint order;
+    public Paint Order 
+    {
+        get { return _order; }
+        set 
+        {
+            _order = value;
+            wishRenderer.sprite = Resources.Load<Sprite>(value.SpriteName);
+        }
+    }
+    private Paint _order;
 
     public bool OnScreen { get { return _index >= 0; }}
 
-    private void Start()
-    {
-        EventManager.Instance.OnMatched += Matched;
-    }
+
 
     void WillGoOnScreen () 
     {
@@ -49,16 +55,7 @@ public class CustomerManager : MonoBehaviour {
         {
             gameObject.SetActive(true);
         }
-        RandomizeWish();
 
-    }
-
-    void RandomizeWish() 
-    {
-
-        int i = Random.Range(0, Paint.Orderable.Length);
-        order = Paint.Orderable[i];
-        wishRenderer.sprite = Resources.Load<Sprite>(order.SpriteName);
     }
 
     void SlideTo (Vector2 position) 
@@ -67,7 +64,7 @@ public class CustomerManager : MonoBehaviour {
     }
 
 
-    public void SlideOff()
+    void SlideOff()
     {
         transform.DOMove(leftOffscreenPos, slideTime).OnComplete(ResetPosition);
     }
@@ -81,11 +78,5 @@ public class CustomerManager : MonoBehaviour {
         return characterRenderer.sprite.name;
     }
 
-    public void Matched(Paint paint, int num) {
-        if(paint == order) 
-        {
-            CustomerSpawner.Instance.OrderFulfilled(Index);
 
-        }
-    }
 }

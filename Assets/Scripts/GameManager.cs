@@ -5,11 +5,11 @@ using UnityEngine.SceneManagement;
 public class GameManager : Singleton<GameManager> {
 
     protected GameManager() {}
+
     public void QuitToMenu () 
     {
         SceneManager.LoadScene(0);
     }
-
 
 
 }

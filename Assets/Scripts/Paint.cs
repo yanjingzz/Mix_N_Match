@@ -34,10 +34,10 @@ public struct Paint : IEquatable<Paint>
     public static readonly Paint Olive = new Paint(1, 2, 1);
     public static readonly Paint Brown = new Paint(2, 1, 1);
 
+
     public static readonly Paint[] Spawnable = { RedSmall, YellowSmall, BlueSmall, GreenSmall, OrangeSmall, VioletSmall };
-    public static readonly Paint[] Orderable = { RedBig, YellowBig, BlueBig, GreenBig, OrangeBig, VioletBig,Amber,Vermillion,Magenta,Indigo,Turquoise,Lime,Slate,Brown,Olive };
-    public string SpriteName
-    {
+    public static readonly Paint[] Orderable = { RedBig, YellowBig, BlueBig, GreenBig, OrangeBig, VioletBig, Amber, Vermillion, Magenta, Indigo, Turquoise, Lime, Slate, Brown, Olive };
+    public string SpriteName {
         get
         {
             return this == Empty ? null : "Images/Monsters/" + ToString();
