@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class BoardManager : MonoBehaviour
+public class BoardManager : Singleton<BoardManager>
 {
 
-    public static BoardManager Instance { get; private set; }
 
+    protected BoardManager(){}
 
     public int size = 5;
     public Vector2 center = new Vector2(0, 0);
@@ -19,11 +19,6 @@ public class BoardManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else if (Instance != this)
-            Destroy(gameObject);
-
         //initiating board with black
         var v = new Hex();
         boardGO = new GameObject("Board");
@@ -51,10 +46,15 @@ public class BoardManager : MonoBehaviour
 
             }
         }
+
     }
 
+    void Start()
+    {
+        EventManager.Instance.OnPlaced += FindMatches;
+    }
 
-    public int FindMatches()
+    public void FindMatches()
     {
         var queue = new Queue<Hex>();
         var set = new HashSet<Hex>();
@@ -96,16 +96,17 @@ public class BoardManager : MonoBehaviour
                             {
                                 this[hex] = Paint.Empty;
                             }
-                            RainbowManager.Instance.Matched(target);
                             Debug.Log("Matched " + set.Count + " pieces of " + target);
                             totalMatches += set.Count;
+                            EventManager.Instance.MatchPaint(target, set.Count);
+                            
                         }
                     }
 
                 }
             }
         }
-        return totalMatches;
+
     }
 
     public bool IsLegalToPut(Paint color, Vector2 pos)

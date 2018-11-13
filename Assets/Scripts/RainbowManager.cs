@@ -44,6 +44,8 @@ public class RainbowManager : MonoBehaviour, IPlaceable {
         } else {
             Debug.LogWarning("RainbowManager: DragNDropBehaviour not found");
         }
+
+        EventManager.Instance.OnMatched += Matched;
             
     }
 
@@ -63,34 +65,40 @@ public class RainbowManager : MonoBehaviour, IPlaceable {
 
 
 
-    public void Matched (Paint paint) {
-        if (paint == Paint.RedBig || paint == Paint.Vermillion) 
+    public void Matched (Paint paint, int matches) {
+
+        if (hasRed == false && 
+            (paint == Paint.RedBig || paint == Paint.Vermillion || paint == Paint.Magenta) )
         {
             hasRed = true;
             redPiece.SetActive(true);
         }
-            
-        if (paint == Paint.OrangeBig || paint == Paint.Amber)
+        else if (hasOrange == false && 
+                 (paint == Paint.OrangeBig || paint == Paint.Amber || paint == Paint.Vermillion))
         {
             hasOrange = true;
             orangePiece.SetActive(true);
         }
-        if (paint == Paint.YellowBig || paint == Paint.Lime)
+        else if (hasYellow == false && 
+                 (paint == Paint.YellowBig || paint == Paint.Lime || paint == Paint.Amber) )
         {
             hasYellow = true;
             yellowPiece.SetActive(true);
         }
-        if (paint == Paint.GreenBig || paint == Paint.Turquoise)
+        else if (hasGreen == false &&
+                 (paint == Paint.GreenBig || paint == Paint.Turquoise || paint == Paint.Lime))
         {
             hasGreen = true;
             greenPiece.SetActive(true);
         }
-        if (paint == Paint.BlueBig || paint == Paint.Indigo)
+        else if (hasBlue == false &&
+                 (paint == Paint.BlueBig || paint == Paint.Indigo || paint == Paint.Turquoise))
         {
             hasBlue = true;
             bluePiece.SetActive(true);
         }
-        if (paint == Paint.VioletBig || paint == Paint.Magenta)
+        else if (hasViolet == false &&
+                 (paint == Paint.VioletBig || paint == Paint.Magenta || paint == Paint.Indigo))
         {
             hasViolet = true;
             violetPiece.SetActive(true);
@@ -133,7 +141,7 @@ public class RainbowManager : MonoBehaviour, IPlaceable {
             tf.localPosition = Vector3.zero;
             rainbowRenderer.color = Color.white;
         });
-        ScoreManager.Instance.Placed();
+        EventManager.Instance.Bomb();
         hasFull = false;
     }
 }

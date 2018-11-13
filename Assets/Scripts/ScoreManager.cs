@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreManager : MonoBehaviour {
+public class ScoreManager : Singleton<ScoreManager> {
 
-    public static ScoreManager Instance { get; private set; }
 
+    protected ScoreManager () {}
     public Text scoreText;
     public int Score
     {
@@ -18,10 +18,8 @@ public class ScoreManager : MonoBehaviour {
         set
         {
             _score = value;
-            if (_score >= 600)
-            {
-                Spawner.Instance.SecondaryEnabled = true;
-            }
+            EventManager.Instance.OnUpdatedScore(value);
+
             UpdateScoreText();
 
         }
@@ -29,14 +27,14 @@ public class ScoreManager : MonoBehaviour {
     private int _score;
 
 
-    void Awake()
-    {
-        if (Instance == null)
-            Instance = this;
-        else if (Instance != this)
-            Destroy(gameObject);
-    }
 
+
+    private void Start()
+    {
+        EventManager.Instance.OnMatched += Matched;
+        EventManager.Instance.OnPlaced += Placed;
+        EventManager.Instance.OnBombed += Bombed;
+    }
 
 
     private void UpdateScoreText()
@@ -44,7 +42,7 @@ public class ScoreManager : MonoBehaviour {
         scoreText.text = Score.ToString();
     }
 
-    public void Matched(int matches)
+    public void Matched(Paint paint, int matches)
     {
         if (matches == 0) return;
         Score += Math.Max(1, matches - 2) * 100;

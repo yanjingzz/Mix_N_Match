@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using DG.Tweening;
 
 public class PieceManager : MonoBehaviour, IPlaceable {
@@ -41,22 +40,25 @@ public class PieceManager : MonoBehaviour, IPlaceable {
         //place piece
         foreach (PaintManager paint in paintManagers)
         {
-            ScoreManager.Instance.Placed();
+
             var pos = board.HexAtPoint(paint.transform.position, board.center);
             board[pos] = paint.Color + board[pos];
             if (!((Paint)board[pos]).IsSmall()) paint.Color = Paint.Empty;
             paint.transform.DOMove(board.CenterPosAtHex(pos, board.center), 0.2f);
+
         }
 
+
+        EventManager.Instance.PlacePiece();
         //let board manager find matches
-        ScoreManager.Instance.Matched(board.FindMatches());
+        //ScoreManager.Instance.Matched(board.FindMatches());
 
 
         //spawn new piece
-        Spawner.Instance.Spawn();
+        //Spawner.Instance.Spawn();
 
         //delete itself after one second
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, 0.5f);
 
     }
 
@@ -65,7 +67,7 @@ public class PieceManager : MonoBehaviour, IPlaceable {
     public GameObject paintPrefab;
 
 
-    public GameObject CreateGO(Piece piece) {
+    public void CreateGO(Piece piece) {
         GameObject pieceGO = Instantiate(paintPrefab, transform);
         //setting color id
         var paintManager = pieceGO.GetComponent<PaintManager>();
@@ -79,7 +81,23 @@ public class PieceManager : MonoBehaviour, IPlaceable {
         pieceGO.transform.SetParent(transform);
         pieceGO.transform.localPosition = BoardManager.Instance.CenterPosAtHex(piece.hexPos, Vector2.zero);
 
-        return pieceGO;
+        return;
+    }
+    public void CenterOnChildren() {
+        var pos = Vector3.zero;
+        int count = 0;
+        foreach (Transform child in transform)
+        {
+            pos += child.localPosition;
+            count++;
+        }
+        pos /= count;
+
+        foreach (Transform child in transform)
+        {
+            child.localPosition -= pos;
+        }
+
     }
 }
 

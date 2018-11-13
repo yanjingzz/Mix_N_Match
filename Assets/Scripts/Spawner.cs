@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using System.Collections.Generic;
 public class Spawner : MonoBehaviour {
 
     public static Spawner Instance { get; private set; }
@@ -19,11 +19,20 @@ public class Spawner : MonoBehaviour {
             Instance = this;
         else if (Instance != this)
             Destroy(gameObject);
+
     }
 
-    private void Start()
+    void Start()
     {
         Spawn();
+        EventManager.Instance.OnPlaced += Spawn;
+        EventManager.Instance.OnUpdatedScore += (int score) =>
+        {
+            if (score >= 600)
+            {
+                SecondaryEnabled = true;
+            }
+        };
     }
 
 
@@ -38,16 +47,24 @@ public class Spawner : MonoBehaviour {
             string log = "Spawned: ";
             var hex = Hex.zero;
             int numberOfPieces = UnityEngine.Random.Range(0f, 1f) < singlePieceP ? 1 : 2;
+            List<Hex> hexes = new List<Hex>(5);
+
+            for (int i = 0; i < numberOfPieces; i++)
+            {   //random walk;
+                hexes.Add( (i == 0) ? Hex.zero : hexes[i-1].neighbour(Hex.RandomDirection) );
+            }
+
             for (int i = 0; i < numberOfPieces; i++) 
             {
                 int numOfColors = SecondaryEnabled ? 6 : 3;
                 var color = Paint.Spawnable[UnityEngine.Random.Range(0, numOfColors)];
-                manager.CreateGO(new Piece{color = color, hexPos = hex});
+                manager.CreateGO(new Piece{color = color, hexPos = hexes[i]});
                 log += color + " at " + hex + ", ";
-                //random walk;
-                hex = hex.neighbour(Hex.RandomDirection);
 
             }
+
+            manager.CenterOnChildren();
+            
             //Debug.Log(log);
         }
 

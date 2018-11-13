@@ -60,6 +60,7 @@ public struct Hex
 
     }
 
+
     public Hex neighbour(Vector2Int direction)
     {
         return new Hex(q + direction.x, r + direction.y);
@@ -80,6 +81,15 @@ public struct Hex
     public static Hex operator +(Hex left, Hex right)
     {
         return new Hex(left.q + right.q, left.r + right.r);
+    }
+
+    public static Hex operator -(Hex left, Hex right)
+    {
+        return new Hex(left.q - right.q, left.r - right.r);
+    }
+
+    public static implicit operator Vector2(Hex hex) {
+        return new Vector2(hex.q, hex.r);
     }
 
 }
