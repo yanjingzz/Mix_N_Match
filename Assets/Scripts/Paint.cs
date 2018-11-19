@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[Serializable]
 public struct Paint : IEquatable<Paint>
 {
-    private readonly byte r, y, b;
+    [SerializeField]
+    private byte r, y, b;
     public static readonly Paint Black = new Paint(1, 1, 1);
     public static readonly Paint Empty = new Paint(0, 0, 0);
 
@@ -219,7 +220,9 @@ public struct Paint : IEquatable<Paint>
     public override int GetHashCode()
     {
 
+#pragma warning disable RECS0025 // Non-readonly field referenced in 'GetHashCode()'
         return 165851236 + r.GetHashCode() * 13 + y.GetHashCode() * 7 + b.GetHashCode();
+#pragma warning restore RECS0025 // Non-readonly field referenced in 'GetHashCode()'
 
     }
 

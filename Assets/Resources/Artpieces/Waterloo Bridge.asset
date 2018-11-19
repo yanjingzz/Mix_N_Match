@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ee4f0e82a25a4bb681ec047a4bcee20, type: 3}
+  m_Name: Waterloo Bridge
+  m_EditorClassIdentifier: 
+  Colors:
+  - r: 2
+    y: 0
+    b: 2
+  - r: 2
+    y: 0
+    b: 1
+  - r: 1
+    y: 0
+    b: 2
+  Title: Waterloo Bridge. Effect of Fog
+  Description: "Claude Monet, 1903. \u201CWithout fog London would not be beautiful.\u201D"
+  Image: {fileID: 21300000, guid: c8f8e4df0b08c41c99b1f68377e81334, type: 3}
+  Tier: 2
+  _owned: 0

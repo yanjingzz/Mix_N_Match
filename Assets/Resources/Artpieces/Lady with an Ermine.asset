@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ee4f0e82a25a4bb681ec047a4bcee20, type: 3}
+  m_Name: Lady with an Ermine
+  m_EditorClassIdentifier: 
+  Colors:
+  - r: 2
+    y: 2
+    b: 0
+  - r: 0
+    y: 0
+    b: 2
+  - r: 2
+    y: 0
+    b: 0
+  Title: Lady with an Ermine
+  Description: "It\u2019s one of only four women\u2019s portraits painted by Leonardo
+    da Vinci."
+  Image: {fileID: 21300000, guid: eb28d7cb7774e4a8388c057ab6b6dd34, type: 3}
+  Tier: 1
+  _owned: 0

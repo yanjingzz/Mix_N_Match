@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Paint
   - Board
+  - ArtpieceDisplayer
   layers:
   - Default
   - TransparentFX
@@ -52,6 +53,15 @@ TagManager:
   - name: Monsters
     uniqueID: 2579627089
     locked: 0
+  - name: Customers
+    uniqueID: 2030504951
+    locked: 0
   - name: Items
     uniqueID: 1540800525
+    locked: 0
+  - name: Foreground
+    uniqueID: 1318801215
+    locked: 0
+  - name: UI
+    uniqueID: 942548995
     locked: 0
