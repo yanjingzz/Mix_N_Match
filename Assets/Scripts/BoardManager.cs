@@ -32,7 +32,6 @@ public class BoardManager : Singleton<BoardManager>
                     v.q = i;
                     v.r = j;
                     board[v] = Paint.Empty;
-                    Instantiate(slotPrefab, CenterPosAtHex(v, center), Quaternion.Euler(0, 0, 30), boardGO.transform);
                     var paintGO = Instantiate(paintPrefab, CenterPosAtHex(v, center), Quaternion.Euler(0, 0, 0), boardGO.transform);
                     PaintManager manager = paintGO.GetComponent<PaintManager>();
                     if (manager == null)

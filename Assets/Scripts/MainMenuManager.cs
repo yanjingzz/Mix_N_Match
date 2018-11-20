@@ -3,10 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenuManager : MonoBehaviour {
+public class MainMenuManager : Singleton<MainMenuManager> {
+    protected MainMenuManager () {}
+
     public GameObject MainMenu;
     public GameObject Loading;
+    public GameObject BGMPrefab;
+    public bool soundOn;
 
+    GameObject bgmInstance;
+    
+    private void Start()
+    {
+        if(!ReferenceEquals(this, MainMenuManager.Instance)) {
+            Destroy(gameObject);
+        } else {
+            DontDestroyOnLoad(this);
+            bgmInstance = Instantiate(BGMPrefab);
+            DontDestroyOnLoad(bgmInstance);
+            if(soundOn)
+            {
+                bgmInstance.GetComponent<AudioSource>().Play();
+            }
+        }
+    }
     public void PlayGame() {
         MainMenu.SetActive(false);
         Loading.SetActive(true);
@@ -21,5 +41,7 @@ public class MainMenuManager : MonoBehaviour {
             yield return null;
         }
     }
+
+
 
 }

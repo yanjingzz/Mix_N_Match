@@ -968,6 +968,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainMenu: {fileID: 384277283}
   Loading: {fileID: 1308444934}
+  BGMPrefab: {fileID: 1033499288204188, guid: 13393406536294bce9ead6adfcbb4fb5, type: 2}
+  soundOn: 1
 --- !u!224 &1606755863
 RectTransform:
   m_ObjectHideFlags: 0
