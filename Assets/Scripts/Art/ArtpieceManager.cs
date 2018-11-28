@@ -8,7 +8,7 @@ public class ArtpieceManager : Singleton<ArtpieceManager> {
     Dictionary<int, HashSet<Artpiece>> piecesByTier = new Dictionary<int, HashSet<Artpiece>>();
     List<Artpiece> availablePiece;
     int _tier = 0;
-
+    const string playerPrefsTierKey = "ArtTier";
     private void Awake()
     {
         for (int i = 0; i <= maxTier; i++)
@@ -23,6 +23,18 @@ public class ArtpieceManager : Singleton<ArtpieceManager> {
             }
         }
         availablePiece = new List<Artpiece>(piecesByTier[0]);
+    }
+
+    private void Start()
+    {
+        if (PlayerPrefs.HasKey(playerPrefsTierKey))
+        {
+            _tier = PlayerPrefs.GetInt(playerPrefsTierKey);
+        }
+        else
+        {
+            PlayerPrefs.SetInt(playerPrefsTierKey, _tier);
+        }
     }
 
 
@@ -41,6 +53,8 @@ public class ArtpieceManager : Singleton<ArtpieceManager> {
                 }
             }
             _tier = newTier;
+            PlayerPrefs.SetInt(playerPrefsTierKey,_tier);
+            PlayerPrefs.Save();
         }
     }
     private readonly int maxTier = 3;
@@ -48,7 +62,7 @@ public class ArtpieceManager : Singleton<ArtpieceManager> {
     public Artpiece RandomArtpiece() {
         if (availablePiece.Count == 0) 
         {
-            Debug.Log("ArtpieceManager: No available artpice");
+            //Debug.Log("ArtpieceManager: No available artpice");
             return null;
         }
         var index = Random.Range(0, availablePiece.Count);

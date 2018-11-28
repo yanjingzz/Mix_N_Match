@@ -32,7 +32,7 @@ public class CustomerPooler : Singleton<CustomerPooler>
     }
 	
     void SpawnCustomer() {
-        Debug.Log("Customer spawner: spawning");
+        //Debug.Log("Customer spawner: spawning");
         if (customerQueue.Count >= 4) return;
         foreach(CustomerController customer in customerPool) 
         {
@@ -46,7 +46,7 @@ public class CustomerPooler : Singleton<CustomerPooler>
 
                     if (piece != null)
                     {
-                        Debug.Log("Customer spawner: Assigning " + piece + " to " + customer);
+                        //Debug.Log("Customer spawner: Assigning " + piece + " to " + customer);
 
                         customer.SpawnWithArt(piece, this);
                         customerQueue.Add(customer);
@@ -59,7 +59,7 @@ public class CustomerPooler : Singleton<CustomerPooler>
                 }
                 else
                 {
-                    Debug.Log("Customer spawner: spawning " + customer + " w/ " + customer.Art);
+                    //Debug.Log("Customer spawner: spawning " + customer + " w/ " + customer.Art);
                     customerQueue.Add(customer);
                     break;
                 }
@@ -104,7 +104,7 @@ public class CustomerPooler : Singleton<CustomerPooler>
             var customer = customerQueue[i];
             if (customer.CanFulfillOrder && customer.OnScreen && customer.CheckOrderFulfilled(paint))
             {
-                Debug.Log("Customer spawner: Fulfilled order");
+                //Debug.Log("Customer spawner: Fulfilled order");
                 FulfillOrder(i);
                 //hasFilledOrder = true;
                 break;

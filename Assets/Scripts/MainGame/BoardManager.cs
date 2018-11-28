@@ -141,6 +141,7 @@ public class BoardManager : Singleton<BoardManager>
             if (board.ContainsKey(hex) && value != null)
             {
                 board[hex] = (Paint)value;
+                //Debug.Log("updating board color " + value +  " at " + hex);
                 graphic[hex].Color = (Paint)value;
             }
                 
@@ -148,7 +149,17 @@ public class BoardManager : Singleton<BoardManager>
 
     }
 
+    public float FullRatio()
+    {
+        int totalPos = 0, filledPos = 0;
+        foreach (KeyValuePair<Hex, Paint> entry in board)
+        {
+            totalPos += 1;
+            filledPos += entry.Value == Paint.Empty ? 0 : 1;
 
+        }
+        return (float)filledPos / totalPos;
+    }
 
 
     #region Positioning

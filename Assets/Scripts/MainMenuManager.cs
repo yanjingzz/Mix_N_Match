@@ -5,31 +5,56 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : Singleton<MainMenuManager> {
     protected MainMenuManager () {}
+    bool _soundOn;
+    const string playerPrefSoundOnKey = "SoundOn";
+    public bool SoundOn {
+        get { return _soundOn; }
+        set 
+        {
+            if(bgmSource != null)
+            {
+                if (!_soundOn && value)
+                {
+                    bgmSource.Play();
+                }
+                if(_soundOn && !value)
+                {
+                    bgmSource.Stop();
+                }
+            }
 
-    public GameObject MainMenu;
-    public GameObject Loading;
-    public GameObject BGMPrefab;
-    public bool soundOn;
+            _soundOn = value;
+            PlayerPrefs.SetInt(playerPrefSoundOnKey, value ? 1 : 0);
+            PlayerPrefs.Save();
+        }
+    }
 
-    GameObject bgmInstance;
+    AudioSource bgmSource;
     
     private void Start()
     {
-        if(!ReferenceEquals(this, MainMenuManager.Instance)) {
-            Destroy(gameObject);
-        } else {
-            DontDestroyOnLoad(this);
-            bgmInstance = Instantiate(BGMPrefab);
-            DontDestroyOnLoad(bgmInstance);
-            if(soundOn)
-            {
-                bgmInstance.GetComponent<AudioSource>().Play();
-            }
+        DontDestroyOnLoad(this);
+        GameObject bgm = Resources.Load<GameObject>("prefabs/BGM");
+        var bgmInstance = Instantiate(bgm);
+        DontDestroyOnLoad(bgmInstance);
+        bgmSource = bgmInstance.GetComponent<AudioSource>();
+        if(PlayerPrefs.HasKey(playerPrefSoundOnKey))
+        {
+            _soundOn = PlayerPrefs.GetInt(playerPrefSoundOnKey) == 1;
+        }
+        else {
+            PlayerPrefs.SetInt(playerPrefSoundOnKey, 1);
+            _soundOn = true;
+        }
+        if(bgmSource == null) {
+            Debug.Log("Missing BGM AudioSource");
+        } else if (_soundOn)
+        {
+
+            bgmSource.Play();
         }
     }
     public void PlayGame() {
-        MainMenu.SetActive(false);
-        Loading.SetActive(true);
         StartCoroutine(AsyncLoadScene());
     }
 

@@ -63,7 +63,7 @@ public class CustomerView : MonoBehaviour {
         bubbleRenderer.enabled = true;
         orderRenderer.enabled = true;
         holdRenderer.enabled = false;
-        orderRenderer.sprite = Resources.Load<Sprite>(order.SpriteName);
+        orderRenderer.sprite = order.MonsterSprite;
         characterRenderer.sprite = characterSprite;
         monsterRenderer.enabled = false;
     }
@@ -94,7 +94,7 @@ public class CustomerView : MonoBehaviour {
         particle.Emit(50);
         bubbleRenderer.FadeOff(fadeTime);
         orderRenderer.FadeOff(fadeTime);
-        monsterRenderer.FadeOnWithSprite(Resources.Load<Sprite>(paint.SpriteName), fadeTime);
+        monsterRenderer.FadeOnWithSprite(paint.MonsterSprite, fadeTime);
 
     }
 

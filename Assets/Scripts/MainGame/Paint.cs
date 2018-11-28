@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 [Serializable]
 public struct Paint : IEquatable<Paint>
 {
     [SerializeField]
     private byte r, y, b;
+
     public static readonly Paint Black = new Paint(1, 1, 1);
     public static readonly Paint Empty = new Paint(0, 0, 0);
 
@@ -35,17 +37,45 @@ public struct Paint : IEquatable<Paint>
     public static readonly Paint Olive = new Paint(1, 2, 1);
     public static readonly Paint Brown = new Paint(2, 1, 1);
 
-
+    public static readonly Paint[] AllPaints = { Empty, RedSmall, YellowSmall, BlueSmall, GreenSmall, OrangeSmall, VioletSmall, RedBig, YellowBig, BlueBig, GreenBig, OrangeBig, VioletBig, Amber, Vermillion, Magenta, Indigo, Turquoise, Lime, Slate, Brown, Olive, Black};
     public static readonly Paint[] Spawnable = { RedSmall, YellowSmall, BlueSmall, GreenSmall, OrangeSmall, VioletSmall };
     public static readonly Paint[] Orderable = { RedBig, YellowBig, BlueBig, GreenBig, OrangeBig, VioletBig, Amber, Vermillion, Magenta, Indigo, Turquoise, Lime, Slate, Brown, Olive };
-    public string SpriteName {
+    public static readonly Dictionary<Paint, List<Formula>> Formulas;
+
+    static Paint()
+    {
+
+        Dictionary<Paint, List<Formula>> dict = new Dictionary<Paint, List<Formula>>();
+        foreach (Paint left in Spawnable)
+        {
+            foreach (Paint right in AllPaints) 
+            {
+                if(right != Empty && right != Black && IsMixable(left, right))
+                {
+                    Paint result = left + right;
+                    if(!dict.ContainsKey(result))
+                    {
+                        dict.Add(result, new List<Formula>());
+                    }
+                    if (right.IsSmall() && dict[result].Contains(new Formula { left = right, right = left }))
+                        continue;
+                    else 
+                        dict[result].Add(new Formula {left = left, right = right});
+                }
+            }
+        }
+        Formulas = dict;
+    }
+
+    private string SpriteName
+    {
         get
         {
             return this == Empty ? null : "Images/Monsters/" + ToString();
         }
     }
 
-    public string PreviewName
+    private string PreviewName
     {
         get
         {
@@ -53,7 +83,9 @@ public struct Paint : IEquatable<Paint>
         }
     }
 
+    public Sprite MonsterSprite { get { return Resources.Load<Sprite>(SpriteName); } }
 
+    public Sprite PreviewSprite { get { return Resources.Load<Sprite>(PreviewName); } }
 
     private static readonly string[] name =
     {
@@ -119,7 +151,6 @@ public struct Paint : IEquatable<Paint>
         this.r = r;
         this.b = b;
         this.y = y;
-
 
     }
 

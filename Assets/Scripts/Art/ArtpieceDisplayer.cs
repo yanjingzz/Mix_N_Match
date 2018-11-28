@@ -8,10 +8,12 @@ public class ArtpieceDisplayer : MonoBehaviour {
     public Text title;
     public Text description;
     public Image image;
+    public GameObject congratsTitle;
     Action _disableCallback;
 
-    public void DisplayArtpiece(Artpiece artpiece, Action disableCallback)
+    public void DisplayArtpiece(Artpiece artpiece, bool IsFirstTime, Action disableCallback)
     {
+        congratsTitle.SetActive(IsFirstTime);
         if (artpiece != null)
         {
             title.text = artpiece.Title;

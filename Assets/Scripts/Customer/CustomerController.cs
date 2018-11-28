@@ -74,7 +74,7 @@ public class CustomerController : MonoBehaviour {
 
     public void WillGoOnScreen()
     {
-        Debug.Log(this + " will go on screen");
+        //Debug.Log(this + " will go on screen");
         OnScreen = true;
         customerView.Show();
         if (customer.IsOrdering)
@@ -136,7 +136,7 @@ public class CustomerController : MonoBehaviour {
     {
         if(customer.IsGifting)
         {
-            _displayer.DisplayArtpiece(customer.Art, GiftOpened);
+            _displayer.DisplayArtpiece(customer.Art,true, GiftOpened);
         }
     }
 

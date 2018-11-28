@@ -11,6 +11,7 @@ public class EventManager : Singleton<EventManager>
     public Action<Paint,int> OnMatched { get; set; }
     public Action<int> OnUpdatedScore { get; set; }
     public Action OnBombed { get; set; }
+    public Action<Paint> OnEncounter { get; set; }
 
     public void PlacePiece() {
         if(OnPlaced != null) {
@@ -40,6 +41,15 @@ public class EventManager : Singleton<EventManager>
         {
             OnUpdatedScore(score);
         }
+    }
+
+    public void EncounterColor(Paint paint)
+    {
+        if (OnEncounter != null)
+        {
+            OnEncounter(paint);
+        }
+
     }
 
 

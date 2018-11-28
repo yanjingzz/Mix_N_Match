@@ -24,7 +24,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
         }
     }
-    private int _score;
+    private int _score = 0;
 
 
 
