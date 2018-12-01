@@ -33,8 +33,11 @@ public class ArtpieceManager : Singleton<ArtpieceManager> {
         }
         else
         {
-            PlayerPrefs.SetInt(playerPrefsTierKey, _tier);
+            _tier = 0;
+            PlayerPrefs.SetInt(playerPrefsTierKey, 0);
         }
+        MakeArtAvailableToTier(_tier);
+        Debug.Log("ArtManager: current tier " + Tier + ", avalable pieces " + availablePiece.Count);
     }
 
 
@@ -45,14 +48,10 @@ public class ArtpieceManager : Singleton<ArtpieceManager> {
         {
             int newTier = Mathf.Min(value, maxTier);
             if (newTier <= _tier) return;
-            Debug.Log("ArtpieceManager: Updating tier to " + newTier);
-            for (int i = _tier + 1; i <= newTier; i++)
-            {
-                foreach(Artpiece piece in piecesByTier[i]) {
-                    availablePiece.Add(piece);
-                }
-            }
+
+            MakeArtAvailableToTier(newTier);
             _tier = newTier;
+            Debug.Log("ArtpieceManager: Updating tier to " + newTier + ", avalable pieces " + availablePiece.Count);
             PlayerPrefs.SetInt(playerPrefsTierKey,_tier);
             PlayerPrefs.Save();
         }
@@ -69,6 +68,18 @@ public class ArtpieceManager : Singleton<ArtpieceManager> {
         Artpiece piece = availablePiece[index];
         availablePiece.RemoveAt(index);
         return piece;
+    }
+
+    private void MakeArtAvailableToTier(int tier) 
+    {
+        for (int i = 0; i <= tier; i++)
+        {
+            foreach (Artpiece piece in piecesByTier[i])
+            {
+                if (!piece.Owned && !availablePiece.Contains(piece))
+                    availablePiece.Add(piece);
+            }
+        }
     }
 
 

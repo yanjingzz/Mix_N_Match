@@ -8,6 +8,7 @@ public class EventManager : Singleton<EventManager>
     protected EventManager() { }
 
     public Action OnPlaced  { get; set; }
+    public Action OnPlacedAndMatched { get; set; }
     public Action<Paint,int> OnMatched { get; set; }
     public Action<int> OnUpdatedScore { get; set; }
     public Action OnBombed { get; set; }
@@ -16,6 +17,11 @@ public class EventManager : Singleton<EventManager>
     public void PlacePiece() {
         if(OnPlaced != null) {
             OnPlaced();
+
+        }
+        if(OnPlacedAndMatched != null)
+        {
+            OnPlacedAndMatched();
         }
     }
 

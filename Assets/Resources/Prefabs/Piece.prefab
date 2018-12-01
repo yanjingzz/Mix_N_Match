@@ -63,5 +63,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd7819b89e068447aa6dda0271a20321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewSprites: []
   paintPrefab: {fileID: 1650808684001452, guid: fbac42a96d67e4419a30a4fc5d5fe88c,
     type: 2}

@@ -19,7 +19,7 @@ public class RainbowManager : MonoBehaviour, IPlaceable {
 
 
     bool hasYellow, hasOrange, hasRed, hasGreen, hasBlue, hasViolet;
-    bool hasFull
+    public bool HasFull
     {
         get
         {
@@ -53,7 +53,7 @@ public class RainbowManager : MonoBehaviour, IPlaceable {
     {
         if (IsFullAtStart) 
         {
-            hasFull = true;
+            HasFull = true;
             fullRainbow.SetActive(true);
         }
         rainbowRenderer = fullRainbow.GetComponent<SpriteRenderer>();
@@ -103,7 +103,7 @@ public class RainbowManager : MonoBehaviour, IPlaceable {
             hasViolet = true;
             violetPiece.SetActive(true);
         }
-        if (hasFull) {
+        if (HasFull) {
             redPiece.SetActive(false);
             orangePiece.SetActive(false);
             yellowPiece.SetActive(false);
@@ -142,6 +142,6 @@ public class RainbowManager : MonoBehaviour, IPlaceable {
             rainbowRenderer.color = Color.white;
         });
         EventManager.Instance.Bomb();
-        hasFull = false;
+        HasFull = false;
     }
 }

@@ -7,15 +7,26 @@ public class ClickHandler : MonoBehaviour {
     public GameObject MainMenu;
     public GameObject Loading;
     private MainMenuManager mainMenuManager;
-    public bool SoundOn {
+    public bool MusicOn {
         set {
-            MainMenuManager.Instance.SoundOn = value;
+            mainMenuManager.MusicOn = value;
         }
         get {
-            return MainMenuManager.Instance.SoundOn;
+            return mainMenuManager.MusicOn;
         }
     }
-    private void Start()
+    public bool SoundFXOn
+    {
+        set
+        {
+            mainMenuManager.SoundFXOn = value;
+        }
+        get
+        {
+            return mainMenuManager.SoundFXOn;
+        }
+    }
+    void Awake()
     {
         mainMenuManager = MainMenuManager.Instance;
     }
@@ -25,7 +36,7 @@ public class ClickHandler : MonoBehaviour {
         {
             MainMenu.SetActive(false);
             Loading.SetActive(true);
-            MainMenuManager.Instance.PlayGame();
+            mainMenuManager.PlayGame();
         }
 
     }

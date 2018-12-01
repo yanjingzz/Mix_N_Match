@@ -68,7 +68,7 @@ public class PaintManager : MonoBehaviour {
     }
     private bool ChangeSprite(Paint color) 
     {
-        Debug.Log("Change sprite: " + color);
+        //Debug.Log("Change sprite: " + color);
         fading = true;
         if(OnBoard) HidePreview();
         if (monsterRenderer == null) {
@@ -77,6 +77,7 @@ public class PaintManager : MonoBehaviour {
 
         if (color == Paint.Black) {
             Puff(color, 80);
+            PlayBlackGrowl();
         }
         if(color == Paint.Empty) {
             if(OnBoard)
@@ -101,15 +102,22 @@ public class PaintManager : MonoBehaviour {
     {
         if (fading)
         {
-            Debug.Log("Preview but fading");
+            //Debug.Log("Preview but fading");
             return false;
         }
            
-        Debug.Log("Preview: " + paint);
+        //Debug.Log("Preview: " + paint);
         if (paint == Paint.Empty)
             return false;
         if(previewRenderer.color != paint.ColorValue)
+        {
             previewRenderer.DOColor(paint.ColorValue, fadeTime);
+            if(paint == Paint.Black)
+            {
+                PlayBlackGrowl();
+            }
+        }
+
         return true;
     }
     private void Puff(Paint paint, int num)
@@ -119,7 +127,7 @@ public class PaintManager : MonoBehaviour {
     }
     private bool HidePreview()
     {
-        Debug.Log("Hiding preview " + preview);
+        //Debug.Log("Hiding preview " + preview);
         preview = null;
         previewRenderer.DOFade(0f, fadeTime);
         return true;
@@ -196,4 +204,17 @@ public class PaintManager : MonoBehaviour {
         fading = false;
     }
 
+    public AudioClip BlackGrowl;
+
+    public void PlayBlackGrowl()
+    {
+        if (MainMenuManager.Instance.SoundFXOn)
+            AudioSource.PlayClipAtPoint(BlackGrowl, Camera.main.transform.position);
+    }
+    public void Flash()
+    {
+        Debug.Log("flashin");
+        monsterRenderer.color = UnityEngine.Color.black;
+        monsterRenderer.DOColor(UnityEngine.Color.white, 0.8f);
+    }
 }

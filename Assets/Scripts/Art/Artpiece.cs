@@ -16,7 +16,10 @@ public class Artpiece: ScriptableObject {
         get { return _owned; }
         set
         {
-            if (value) _owned = value;
+            if (value) 
+            {
+                _owned = value;
+            }
         }
     }
     [SerializeField] private bool _owned;

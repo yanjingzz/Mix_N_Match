@@ -36,7 +36,7 @@ public class Spawner : MonoBehaviour {
     void Start()
     {
         Spawn();
-        EventManager.Instance.OnPlaced += Spawn;
+        EventManager.Instance.OnPlacedAndMatched += Spawn;
         EventManager.Instance.OnUpdatedScore += (int score) =>
         {
             if (score >= 600)
@@ -55,13 +55,12 @@ public class Spawner : MonoBehaviour {
         if (manager == null) {
             Debug.LogError("Spawner: Missing PieceManager");
         } else {
-            string log = "Spawned: ";
             var hex = Hex.zero;
             int numberOfPieces = 1;
             float randomVar = UnityEngine.Random.Range(0f, 1f);
             var p1 = SinglePieceP;
             var p3 = ThreePieceP;
-            Debug.Log("p1 = " + p1 + ", p3 = " + p3 + ", rolled " + randomVar);
+            //Debug.Log("p1 = " + p1 + ", p3 = " + p3 + ", rolled " + randomVar);
             if(randomVar > p1)
             {
                 numberOfPieces = 2;
@@ -93,12 +92,15 @@ public class Spawner : MonoBehaviour {
                 int numOfColors = SecondaryEnabled ? 6 : 3;
                 var color = Paint.Spawnable[UnityEngine.Random.Range(0, numOfColors)];
                 manager.CreateGO(new Piece{color = color, hexPos = hexes[i]});
-                log += color + " at " + hex + ", ";
             }
 
             manager.CenterOnChildren();
-            
-            //Debug.Log(log);
+            bool gameover = !manager.CheckPlaceable();
+            if(gameover)
+            {
+                Debug.Log("Spawner: newly spawned piece cannot be placed, game over.");
+                GameManager.Instance.GameOver();
+            }
         }
 
     }

@@ -32,6 +32,8 @@ public class PieceManager : MonoBehaviour, IPlaceable {
         {
             if (!board.IsLegalToPut(paint.Color, paint.transform.position))
             {
+                paint.Flash();
+                board.Flash(paint.transform.position);
                 transform.DOMove(initialPos, 0.3f);
                 return;
             }
@@ -41,10 +43,10 @@ public class PieceManager : MonoBehaviour, IPlaceable {
         foreach (PaintManager paint in paintManagers)
         {
 
-            var pos = board.HexAtPoint(paint.transform.position, board.center);
-            board[pos] = paint.Color + board[pos];
-            if (!((Paint)board[pos]).IsSmall()) paint.Color = Paint.Empty;
-            paint.transform.DOMove(board.CenterPosAtHex(pos, board.center), 0.2f);
+            var hex = board.HexAtPoint(paint.transform.position, board.center);
+            board[hex] = paint.Color + board[hex];
+            if (!((Paint)board[hex]).IsSmall()) paint.Color = Paint.Empty;
+            paint.transform.DOMove(board.CenterPosAtHex(hex, board.center), 0.2f);
 
         }
 
@@ -83,6 +85,7 @@ public class PieceManager : MonoBehaviour, IPlaceable {
 
         return;
     }
+    private Vector2 offset = Vector2.zero;
     public void CenterOnChildren() {
         var pos = Vector3.zero;
         int count = 0;
@@ -92,11 +95,44 @@ public class PieceManager : MonoBehaviour, IPlaceable {
             count++;
         }
         pos /= count;
-
+        offset = pos;
         foreach (Transform child in transform)
         {
             child.localPosition -= pos;
         }
+
+    }
+
+    public bool CheckPlaceable()
+    {
+        BoardManager board = BoardManager.Instance;
+        bool legalToPutSomewhere = false;
+        //int count = 0;
+        foreach(Hex hex in board.Positions)
+        {
+            bool legalToPutAtHex = true;
+            foreach (PaintManager paint in paintManagers)
+            {
+                Vector2 localPos = paint.transform.localPosition;
+                var pos = board.CenterPosAtHex(hex, board.center) + localPos + offset;
+
+                if (!board.IsLegalToPut(paint.Color, pos))
+                {
+                    legalToPutAtHex = false;
+                    break;
+                }
+            }
+            if(legalToPutAtHex) 
+            {
+                legalToPutSomewhere = true;
+                break;
+                //count++;
+                //Debug.Log("PieceManager: this piece is legal to put at: " + hex);
+            }
+
+        }
+        //Debug.Log("PieceManager: total placeable slots: " + count);
+        return legalToPutSomewhere;
 
     }
 }

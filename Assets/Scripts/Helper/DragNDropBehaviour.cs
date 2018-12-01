@@ -40,6 +40,7 @@ public class DragNDropBehaviour : MonoBehaviour, IDragHandler, IEndDragHandler, 
         dragging = true;
         offSet = transform.position - Camera.main.ScreenToWorldPoint(eventData.position);
         offSet.z = -1;
+
     }
 
     void IDragHandler.OnDrag(PointerEventData eventData)

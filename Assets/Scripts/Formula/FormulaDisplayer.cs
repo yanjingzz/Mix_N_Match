@@ -29,9 +29,4 @@ public class FormulaDisplayer : MonoBehaviour {
         resultLock.SetActive(!GameManager.HasEncountered(_formula.Result));
 
     }
-
-    private void OnValidate()
-    {
-        ChangeFormula();
-    }
 }

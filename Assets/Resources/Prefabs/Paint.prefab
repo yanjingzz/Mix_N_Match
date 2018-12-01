@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 58597222224128532}
   - component: {fileID: 114781391757684502}
   - component: {fileID: 50249112973474830}
+  - component: {fileID: 114268230319610928}
   m_Layer: 0
   m_Name: Paint
   m_TagString: Paint
@@ -168,6 +169,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.38
+--- !u!114 &114268230319610928
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1650808684001452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa6cc1e81f44042eba4c432144f9402e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickUpSound: {fileID: 8300000, guid: e03191954b55d4230b0f5c7c0bd0aa43, type: 3}
 --- !u!114 &114781391757684502
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -179,6 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03aeb9e0027ed4021b3dc6e317f4319a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BlackGrowl: {fileID: 8300000, guid: c678bb42a6ab0451fbe472a69592d28d, type: 3}
 --- !u!198 &198675284708439770
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -893,7 +893,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 1920}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1037,46 +1037,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1497509143
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1497509145}
-  - component: {fileID: 1497509144}
-  m_Layer: 0
-  m_Name: (singleton) GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1497509144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1497509143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 958b603d3927645d48bb834979d562f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1497509145
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1497509143}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1536799781
 Prefab:
@@ -1261,7 +1221,7 @@ Prefab:
     - target: {fileID: 224355916758516728, guid: e4875154f55304375a3adf6b918d6265,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -540
       objectReference: {fileID: 0}
     - target: {fileID: 224355916758516728, guid: e4875154f55304375a3adf6b918d6265,
         type: 2}
@@ -1271,7 +1231,7 @@ Prefab:
     - target: {fileID: 224355916758516728, guid: e4875154f55304375a3adf6b918d6265,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -1080
       objectReference: {fileID: 0}
     - target: {fileID: 224355916758516728, guid: e4875154f55304375a3adf6b918d6265,
         type: 2}
@@ -1413,6 +1373,10 @@ Prefab:
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 628362426}
+    - target: {fileID: 1631509935886686, guid: 87989d6406d9347f78b3f35d2e5e23f1, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87989d6406d9347f78b3f35d2e5e23f1, type: 2}
   m_IsPrefabAsset: 0

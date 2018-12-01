@@ -19,7 +19,7 @@ public class CustomerPooler : Singleton<CustomerPooler>
 	// Use this for initialization
 	void Start () {
         EventManager.Instance.OnMatched += Matched;
-        EventManager.Instance.OnPlaced += SpawnCustomer;
+        EventManager.Instance.OnPlacedAndMatched += SpawnCustomer;
 
         for (int i = 0; i < 5; i++) {
             var customer = Instantiate(CustomerPrefab, this.transform);

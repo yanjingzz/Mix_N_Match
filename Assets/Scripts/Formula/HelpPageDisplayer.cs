@@ -81,9 +81,9 @@ public class HelpPageDisplayer : MonoBehaviour
         {
             TitleText.text = "How to play";
             HelpText.text = "- Drag eggs onto the nests. Putting eggs on monsters makes them change color. Discover the formulas yourself!\n\n" +
-            "- Match monsters by putting 3 + of the same monsters next to each other.\n\n" +
-            "- Matching different colored monsters can give you powerups. Fulfill orders of customers for more surprises!\n\n" + 
-            "- Beware of the black monsters! They can't mix or match with others!";
+                "- Match monsters by putting 3 + of the same monsters next to each other.\n\n" +
+                "- Matching different colored monsters can give you rainbow bombs that clear obstacles. Fulfill orders of customers for more surprises!\n\n" + 
+                "- Beware of the black monsters! They can't mix or match with others!";
         } 
         else if (Page == 1)
         {

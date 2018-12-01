@@ -7,7 +7,7 @@ public class BoardManager : Singleton<BoardManager>
 
     protected BoardManager(){}
 
-    public int size = 5;
+    public int size = 2;
     public Vector2 center = new Vector2(0, 0);
     public float cellSize = 1;
     public GameObject slotPrefab;
@@ -16,13 +16,16 @@ public class BoardManager : Singleton<BoardManager>
     private GameObject boardGO;
     private Dictionary<Hex, Paint> board = new Dictionary<Hex, Paint>();
     private Dictionary<Hex, PaintManager> graphic = new Dictionary<Hex, PaintManager>();
-
+    public List<Hex> Positions { get; private set; }
     void Awake()
     {
         //initiating board with black
         var v = new Hex();
-        boardGO = new GameObject("Board");
-        boardGO.tag = "Board";
+        boardGO = new GameObject("Board")
+        {
+            tag = "Board"
+        };
+        Positions = new List<Hex>();
         for (int i = -size; i <= size; i++)
         {
             for (int j = -size; j <= size; j++)
@@ -31,6 +34,7 @@ public class BoardManager : Singleton<BoardManager>
                 {
                     v.q = i;
                     v.r = j;
+                    Positions.Add(v);
                     board[v] = Paint.Empty;
                     var paintGO = Instantiate(paintPrefab, CenterPosAtHex(v, center), Quaternion.Euler(0, 0, 0), boardGO.transform);
                     PaintManager manager = paintGO.GetComponent<PaintManager>();
@@ -120,7 +124,7 @@ public class BoardManager : Singleton<BoardManager>
         return IsOnBoard(hex);
     }
 
-    bool IsLegalToPut(Paint color, Hex hex)
+    public bool IsLegalToPut(Paint color, Hex hex)
     {
         return IsOnBoard(hex) && Paint.IsMixable(board[hex], color);
     }
@@ -212,4 +216,11 @@ public class BoardManager : Singleton<BoardManager>
     }
 
     #endregion
+
+    public void Flash(Vector2 pos)
+    {
+        var hex = HexAtPoint(pos, center);
+        if(IsOnBoard(hex))
+            graphic[hex].Flash();
+    }
 }
